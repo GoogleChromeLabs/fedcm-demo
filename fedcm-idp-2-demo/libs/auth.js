@@ -350,10 +350,7 @@ const isValidOrigin = (originStr) => {
       origin === new URL(RP_ORIGIN).origin ||
       origin === new URL(RP_MULTI_IDP_ORIGIN).origin ||
       origin === new URL("http://localhost:8080").origin ||
-      origin === new URL("https://project-sesame.googleplex.com/").origin ||
       origin === new URL("https://project-sesame-426206.appspot.com/").origin ||
-      origin ===
-        new URL("https://dev-dot-project-sesame.googleplex.com/").origin ||
       origin ===
         new URL("https://luminous-accurate-parenthesis.glitch.me/").origin
     );
