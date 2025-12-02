@@ -1,0 +1,110 @@
+*This is not an officially supported Google product*
+
+# Federated Credential Management (FedCM) Demos
+
+This directory contains a collection of demos for the [Federated Credential Management (FedCM) API](https://developer.chrome.com/docs/privacy-sandbox/fedcm/). These demos illustrate how a browser can mediate identity federation between a website (Relying Party) and an identity provider.
+
+The typical flow involves two main parties: a Relying Party (RP) and an Identity Provider (IdP).
+
+## Projects
+
+This directory contains the following demo projects:
+
+*   **`fedcm-demo-rp/`**: A demo **Relying Party (RP)**. An RP is a website that a user wants to sign in to. Instead of managing its own user accounts and passwords, it relies on a trusted third party (an Identity Provider) to handle user authentication. This demo shows how an RP integrates with the FedCM API to request user credentials.
+
+*   **`fedcm-demo-idp/`**: A demo **Identity Provider (IdP)**. An IdP is a service that manages user identities and provides authentication. When an RP requests to sign in a user, the IdP is responsible for authenticating the user (e.g., via username/password) and issuing an identity token back to the RP, via the browser's FedCM API.
+
+*   **`fedcm-demo-idp-2/`**: A second demo **Identity Provider (IdP)**. This IdP is functionally similar to `fedcm-demo-idp`. Its primary purpose is to be run alongside the first IdP to demonstrate how FedCM supports a multi-IdP account chooser, allowing users to select from different identity providers within a single sign-in flow.
+
+*   **`fedcm-multi-idp-rp/`**: A demo **Relying Party (RP)** specifically configured to work with multiple IdPs (`fedcm-demo-idp` and `fedcm-demo-idp-2`). It demonstrates how an RP can present the user with a choice of identity providers.
+
+## Running the Demos
+
+This project is configured to run the three main demos (`fedcm-demo-rp`, `fedcm-demo-idp`, and `fedcm-demo-idp-2`) concurrently with a single command. This setup uses **Caddy** as a reverse proxy to accurately simulate a real-world, cross-site environment with HTTPS.
+
+### Prerequisites
+
+1.  **Node.js and npm**: Ensure you have Node.js (v18+) and npm installed.
+2.  **Available Ports**: The demo servers require ports `8080`, `8081`, and `8082` to be free. You can check for running processes on these ports with the following commands:
+       
+        lsof -i :8080 -i :8081 -i :8082
+
+    If any of these commands show output, you will need to stop the process using that port before proceeding.
+
+
+### 1. Configure Environment Variables
+
+Each demo project needs to know the URLs of the other projects. You must create a `.env` file in each of the three demo directories with the content specified below.
+
+#### In **`fedcm/`**, create a `.env` file:
+
+```
+    IDP1_URL=https://fedcm-demo-idp.localhost
+    IDP2_URL=https://fedcm-demo-idp-2.localhost
+    RP_URL=https://fedcm-demo-rp.localhost
+    PROVIDER_URLS=["https://fedcm-demo-idp.localhost", "https://fedcm-demo-idp-2.localhost"]
+```
+
+### 2. Install and Run the Environment
+
+Navigate to this `fedcm/` directory and run the following commands:
+
+```bash
+# Install root dependencies and dependencies for all sub-projects
+npm install
+```
+
+```bash
+# Start all demo projects and the Caddy proxy
+npm start
+```
+
+#### What `npm start` Does
+
+The `npm start` command triggers the entire environment setup:
+
+1.  **Starts Demo Servers**: It starts the servers for the three core projects:
+    *   `fedcm-demo-rp` on port `8080`
+    *   `fedcm-demo-idp` on port `8081`
+    *   `fedcm-demo-idp-2` on port `8082`
+
+    Their logs will appear in your terminal with color-coded prefixes like `[RP]`, `[IDP]`, and `[IDP-2]`.
+
+2.  **Waits for Servers**: It waits until all three demo servers are up and running before proceeding.
+
+3.  **Starts Caddy Proxy**: Once the servers are ready, it launches the Caddy reverse proxy. The proxy provides the secure HTTPS layer and maps the running demo servers to the `.local` domains you configured in your hosts file:
+    *   `https://fedcm-demo-rp.localhost` → `localhost:8080`
+    *   `https://fedcm-demo-idp.localhost` → `localhost:8081`
+    *   `https://fedcm-demo-idp-2.localhost` → `localhost:8082`
+
+    The first time it runs, it may ask for your system password to install the certificates. Caddy's logs are saved to a `caddy.log` file in this directory.
+
+### Access the locally running Demos 
+
+With the environment running, you can now test the FedCM flow:
+   *   [https://fedcm-demo-rp.localhost](https://fedcm-demo-rp.localhost) - Relying Party (RP)
+   *   [https://fedcm-demo-idp.localhost](https://fedcm-demo-idp.localhost) - Identity Provider (IdP)
+   *   [https://fedcm-demo-idp-2.localhost](https://fedcm-demo-idp-2.localhost) - Another Identity Provider (IdP)
+
+## Try out the deployed demos 
+
+With the environment running, you can now test the FedCM flow:
+   * [https://fedcm-demo-rp.dev](https://fedcm-demo-rp.dev)
+   * [https://fedcm-demo-idp.dev](https://fedcm-demo-idp.dev)
+   * [https://fedcm-demo-idp-2.dev](https://fedcm-demo-idp.dev)
+
+
+## FedCM Feature Demos
+
+This project demonstrates various features of the **Federated Credential Management (FedCM) API**. 
+
+| Feature | Demo Page | Documentation |
+| :--- | :--- | :--- |
+| **Passive Mode**  | [`https://fedcm-demo-rp.localhost/`](https://fedcm-demo-rp.localhost/) | [FedCM Auto-reauthentication](https://privacysandbox.google.com/cookies/fedcm/why#fedcm_ui_modes) |
+| **Active Mode** | [`https://fedcm-demo-rp.localhost/active-mode`](https://fedcm-demo-rp.localhost/active-mode) | [FedCM Sign-in Flow](https://privacysandbox.google.com/cookies/fedcm/why#fedcm_ui_modes) |
+| **Multiple IdPs** | [`https://fedcm-demo-rp.localhost/multi-idp`](https://fedcm-demo-rp.localhost/multi-idp) | [FedCM Developer Guide](https://privacysandbox.google.com/cookies/fedcm/implement/identity-provider) |
+| **Domain Hint**  | [`https://fedcm-demo-rp.localhost/domain-hint`](https://fedcm-demo-rp.localhost/domain-hint) | [Using `domain_hint`](https://privacysandbox.google.com/cookies/fedcm/implement/relying-party#domain-hint) |
+| **Domain Hint in Passive Mode** | [`https://fedcm-demo-rp.localhost/domain-hint-passive`](https://fedcm-demo-rp.localhost/domain-hint-passive) | [Using `domain_hint`](https://privacysandbox.google.com/cookies/fedcm/implement/relying-party#domain-hint) |
+| **Custom Fields**  | [`https://fedcm-demo-rp.localhost/alternative-fields`](https://fedcm-demo-rp.localhost/alternative-fields) | [IdP Sign-in Endpoint](https://privacysandbox.google.com/cookies/fedcm/implement/relying-party#fields) |
+| **Custom Fields**  | [`https://fedcm-demo-rp.localhost/alternative-fields`](https://fedcm-demo-rp.localhost/alternative-fields) | [IdP Sign-in Endpoint](https://privacysandbox.google.com/cookies/fedcm/implement/relying-party#fields) |
+| **FedCM in iframe**  | [`https://fedcm-demo-rp.localhost/iframe`](https://fedcm-demo-rp.localhost/iframe) | [Call FedCM from cross-origin iframe](https://privacysandbox.google.com/cookies/fedcm/implement/relying-party#call_fedcm_from_within_a_cross-origin_iframe) |
