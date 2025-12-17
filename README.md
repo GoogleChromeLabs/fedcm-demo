@@ -1,8 +1,4 @@
-*This is not an officially supported Google product. This project is not
-eligible for the [Google Open Source Software Vulnerability Rewards
-Program](https://bughunters.google.com/open-source-security). This project is intended for demonstration purposes only. It is not
-intended for use in a production environment.*
-
+THIS IS A DUMMY COMMIT CHANGE TO TRIGGER A NEW PRE_COMMIT GITHUB JOB
 # Federated Credential Management (FedCM) Demos
 
 This directory contains a collection of demos for the [Federated Credential Management (FedCM) API](https://developer.chrome.com/docs/identity/fedcm/overview). These demos illustrate how a browser can mediate identity federation between a website (Relying Party) and an identity provider.
