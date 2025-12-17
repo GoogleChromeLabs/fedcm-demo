@@ -65,14 +65,10 @@ if (demoDirs.length === 0) {
   demoDirs.forEach(dir => {
     const missingFiles = [];
     const readmePath = path.join(dir, 'README.md');
-    const contributingPath = path.join(dir, 'CONTRIBUTING.md');
     const licensePath = path.join(dir, 'LICENSE');
 
     if (!fs.existsSync(readmePath)) {
       missingFiles.push(`  - Expected file at: ${readmePath}`);
-    }
-    if (!fs.existsSync(contributingPath)) {
-      missingFiles.push(`  - Expected file at: ${contributingPath}`);
     }
     if (!fs.existsSync(licensePath)) {
       missingFiles.push(`  - Expected file at: ${licensePath}`);

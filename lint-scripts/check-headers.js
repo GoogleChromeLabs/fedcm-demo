@@ -63,6 +63,8 @@ function isIgnored(filePath) {
 let hasFailed = false;
 const files = process.argv.slice(2);
 
+console.log("ℹ️  CHECKING FOR OPEN SOURCE HEADERS...");
+
 files.forEach(file => {
   if (isIgnored(file)) {
     return;
