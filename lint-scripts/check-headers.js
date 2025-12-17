@@ -44,7 +44,8 @@ const IGNORE_CONFIG = {
       '.env',
       'env.yaml',
       'env.staging.yaml',
-      'env.prod.yaml'
+      'env.prod.yaml',
+      'code-of-conduct.md'
     ],
    fullPaths: []
 };
@@ -121,4 +122,6 @@ Action:  Please add the required content to the file.
 
 if (hasFailed) {
   process.exit(1);
+} else {
+  console.log("✅ All files have the required headers.");
 }
