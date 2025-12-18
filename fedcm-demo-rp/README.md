@@ -4,7 +4,7 @@
 
 This project is a demonstration of a **Relying Party (RP)** implementing the [Federated Credential Management (FedCM) API](https://developer.chrome.com/docs/identity/fedcm/overview).
 
-It is designed to work alongside a FedCM-compatible [Identity Provider (IdP)](https://github.com/GoogleChromeLabs/fedcm-demo/tree/main/fedcm-idp-demo) to showcase how a user can sign in to a website (the RP) using their existing account from another service (the IdP). This process happens through a browser-mediated flow with the FedCM API.
+It is designed to work alongside a FedCM-compatible [Identity Provider (IdP)](https://github.com/GoogleChromeLabs/fedcm-demo/tree/main/fedcm-demo-idp) to showcase how a user can sign in to a website (the RP) using their existing account from another service (the IdP). This process happens through a browser-mediated flow with the FedCM API.
 
 For a complete overview of the FedCM API and its goals, please refer to the [Official FedCM Documentation](https://developer.chrome.com/docs/identity/fedcm/overview).
 
