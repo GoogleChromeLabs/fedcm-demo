@@ -88,3 +88,6 @@ images:
   - 'gcr.io/$PROJECT_ID/fedcm-demo-rp${_ENV_SUFFIX}:$SHORT_SHA'
   - 'gcr.io/$PROJECT_ID/fedcm-demo-idp${_ENV_SUFFIX}:$SHORT_SHA'
   - 'gcr.io/$PROJECT_ID/fedcm-demo-idp-2${_ENV_SUFFIX}:$SHORT_SHA'
+
+options:
+  logging: CLOUD_LOGGING_ONLY
