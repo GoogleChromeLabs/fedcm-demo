@@ -11,7 +11,8 @@
       "approved_clients": [
         "http://localhost:8081",
         "https://fedcm-rp-demo.local",
-        "https://fedcm-rp-demo.localhost"
+        "https://fedcm-rp-demo.localhost",
+        "https://fedcm-demo-rp.localhost"
       ],
       "credentials": [],
       "status": "signed_in"
