@@ -80,13 +80,25 @@ app.post("/verify", csrfCheck, (req, res) => {
       validIssuers.push(IDP2_ORIGIN);
     }
 
-    const token = jwt.verify(raw_token, "xxxxx", {
-      issuer: validIssuers,
-      nonce,
-      audience: CLIENT_ID,
-    });
-    
-    const user = getUser(token.sub, token.email, token.name, token.picture);
+    let token;
+    let user;
+    if (typeof raw_token === 'object' && raw_token !== null) {
+      // If the token is an object, we still need to verify issuer, client_id and nonce
+      token = raw_token;
+      jwt.verify(token.access_token, "xxxxx", {
+        issuer: validIssuers,
+        nonce,
+        audience: CLIENT_ID,
+      });
+      user = getUser(token.user_info.sub, token.user_info.email, token.user_info.name, token.user_info.picture);
+    } else {
+      token = jwt.verify(raw_token, "xxxxx", {
+        issuer: validIssuers,
+        nonce,
+        audience: CLIENT_ID,
+      });
+      user = getUser(token.sub, token.email, token.name, token.picture);
+    }
 
     req.session.user_id = user.user_id;
     req.session.username = user.username;
@@ -223,6 +235,19 @@ app.get("/button", (req, res) => {
   const client_id = CLIENT_ID;
   const idp_origin = IDP_ORIGIN;
   res.render("button.html", { nonce, client_id, idp_origin,  code_source: CODE_SOURCE,});
+});
+
+app.get("/json-response", (req, res) => {
+  const nonce = Math.floor(Math.random() * 10e10);
+  req.session.nonce = nonce;
+  const client_id = CLIENT_ID;
+  const idp_origin = IDP_ORIGIN;
+  res.render("json-response.html", 
+    { nonce,
+      client_id,
+      idp_origin,
+      code_source: CODE_SOURCE,
+    });
 });
 
 app.get("/menu", (req, res) => {
