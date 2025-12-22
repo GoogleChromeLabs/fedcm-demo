@@ -17,12 +17,13 @@
  *
  * NOTE: This is not an officially supported Google product
  */
-import '@material/mwc-button';
-import '@material/mwc-fab';
-import '@material/mwc-top-app-bar-fixed';
-import '@material/mwc-linear-progress';
-import '@material/mwc-textfield';
-import '@material/mwc-snackbar';
-import '@material/mwc-icon-button';
-import '@material/mwc-list';
-import '@material/mwc-list/mwc-list-item';
+import '@material/web/button/filled-button.js';
+import '@material/web/button/text-button.js';
+import '@material/web/fab/fab.js';
+import '@material/web/icon/icon.js';
+import '@material/web/iconbutton/icon-button.js';
+import '@material/web/progress/linear-progress.js';
+import '@material/web/textfield/filled-text-field.js';
+import '@material/web/list/list.js';
+import '@material/web/list/list-item.js';
+import 'prismjs';

@@ -39,8 +39,10 @@ if (menuButton) {
 }
 
 export const toast = (text) => {
-  $('#snackbar').labelText = text;
-  $('#snackbar').show();
+  const sb = document.getElementById('snackbar');
+  sb.innerText = text;
+  sb.className = 'show';
+  setTimeout(function () { sb.className = sb.className.replace('show', ''); }, 3000);
 }
 
 export const displayProfile = (profile) => {

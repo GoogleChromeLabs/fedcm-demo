@@ -59,7 +59,7 @@
           url.searchParams.append('back', 'https://fedcm-demo-rp.glitch.me/button');
           window.parent.location = url.toString();
         }
-        const button = html`<mwc-button @click="${openIdP}" raised>Goto the IdP and Sign in</mwc-button>`;
+        const button = html`<md-filled-button @click="${openIdP}">Goto the IdP and Sign in</md-filled-button>`;
         render(button, $('main'));
       });
 

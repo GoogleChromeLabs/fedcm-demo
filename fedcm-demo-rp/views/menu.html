@@ -31,34 +31,31 @@
   <script src="components-bundle.js" type="module"></script>
 </head>
 <body class="mdc-typography">
-<mwc-top-app-bar-fixed>
-  <span slot="title">Menu</span>
-    <mwc-icon-button
-          id="code"
-          icon="code"
-          slot="actionItems"
-          href="{{code_source}}"
-  ></mwc-icon-button>
-</mwc-top-app-bar-fixed>
+ <header class="top-app-bar">
+   <div style="display: flex; align-items: center;">
+     <span class="title">Menu</span>
+   </div>
+   <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+ </header>
 <main class="content">
   <h2 class="center">Features</h2>
-  <mwc-list>
-    <a href="/"><mwc-list-item>Passive Mode</mwc-list-item></a><br>
-    <a href="/active-mode"><mwc-list-item>Active Mode</mwc-list-item></a><br>
-    <a href="/multi-idp"><mwc-list-item>Multiple Identity Providers</mwc-list-item></a><br>
-    <!-- <a href="/domain-hint"><mwc-list-item>Domain Hint (Active)</mwc-list-item></a><br> -->
-    <a href="/domain-hint-passive"><mwc-list-item>Domain Hint (Passive)</mwc-list-item></a><br>
-    <a href="/alternative-fields"><mwc-list-item>Alternative Fields</mwc-list-item></a><br>
-    <a href="/authorization"><mwc-list-item>Authorization (Continuation API)</mwc-list-item></a><br>
-    <a href="/iframe"><mwc-list-item>FedCM in iFrame</mwc-list-item></a><br>
-    <a href="/json-response"><mwc-list-item>JSON response in ID assertion</mwc-list-item></a><br>
-  </mwc-list>
+  <md-list>
+    <a href="/"><md-list-item>Passive Mode</md-list-item></a><br>
+    <a href="/active-mode"><md-list-item>Active Mode</md-list-item></a><br>
+    <a href="/multi-idp"><md-list-item>Multiple Identity Providers</md-list-item></a><br>
+    <!-- <a href="/domain-hint"><md-list-item>Domain Hint (Active)</md-list-item></a><br> -->
+    <a href="/domain-hint-passive"><md-list-item>Domain Hint (Passive)</md-list-item></a><br>
+    <a href="/alternative-fields"><md-list-item>Alternative Fields</md-list-item></a><br>
+    <a href="/authorization"><md-list-item>Authorization (Continuation API)</md-list-item></a><br>
+    <a href="/iframe"><md-list-item>FedCM in iFrame</md-list-item></a><br>
+    <a href="/json-response"><md-list-item>JSON response in ID assertion</md-list-item></a><br>
+  </md-list>
 
   <h2 class="center">Identity Providers</h2>
-  <mwc-list>
-    <a href="{{idp_origin}}" target="_blank"><mwc-list-item>IdP 1</mwc-list-item></a><br>
-    <a href="{{idp2_origin}}" target="_blank"><mwc-list-item>IdP 2</mwc-list-item></a>
-  </mwc-list>
+  <md-list>
+    <a href="{{idp_origin}}" target="_blank"><md-list-item>IdP 1</md-list-item></a><br>
+    <a href="{{idp2_origin}}" target="_blank"><md-list-item>IdP 2</md-list-item></a>
+  </md-list>
 </main>
 <script type="module">
   const codeButton = document.getElementById('code'); 

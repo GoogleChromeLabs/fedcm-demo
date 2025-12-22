@@ -34,8 +34,12 @@ if (codeButton) {
 }
 
 export const toast = (text) => {
-  $("#snackbar").labelText = text;
-  $("#snackbar").show();
+  const snackbar = document.getElementById("snackbar");
+  snackbar.className = "show";
+  snackbar.innerText = text;
+  setTimeout(function () {
+    snackbar.className = snackbar.className.replace("show", "");
+  }, 3000);
 };
 
 export const _fetch = async (path, payload = "") => {
@@ -182,16 +186,3 @@ export const unregisterCredential = async (credId) => {
   localStorage.removeItem("credId");
   return _fetch(`/auth/removeKey?credId=${encodeURIComponent(credId)}`);
 };
-
-class Loading {
-  constructor() {
-    this.progress = $('#progress');
-  }
-  start() {
-    this.progress.indeterminate = true;    
-  }
-  stop() {
-    this.progress.indeterminate = false;    
-  }
-}
-export const loading = new Loading();
