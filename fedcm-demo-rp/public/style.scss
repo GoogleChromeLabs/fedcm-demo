@@ -103,14 +103,21 @@ md-text-button {
 }
 
 md-list-item {
-  --md-list-item-top-space: 8px;
-  --md-list-item-bottom-space: 8px;
+  --md-list-item-top-space: 0px;
+    --md-list-item-bottom-space: 0px;
   /* Fix pinkish background in some states by forcing transparent or surface color */
   --md-list-item-container-color: transparent;
   --md-sys-color-surface-container-highest: transparent;
   /* Attempt to override hover state pinkness if any */
 }
 
+md-list {
+  width: 100%;
+  max-width: 500px;
+  background-color: transparent;
+  /* Ensure no background color on the list itself */
+  --md-list-container-color: transparent;
+}
 /* Code block styling matching Chrome for Developers */
 pre {
   background-color: #f1f3f4;
