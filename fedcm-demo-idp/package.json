@@ -10,7 +10,7 @@
   "dependencies": {
     "@babel/core": "^7.23.2",
     "@material/web": "^2.4.1",
-    "@simplewebauthn/server": "^4.1.0",
+    "@simplewebauthn/server": "^13.2.2",
     "babel-loader": "^8.1.0",
     "babel-preset-env": "^1.7.0",
     "base64url": "^3.0.1",
