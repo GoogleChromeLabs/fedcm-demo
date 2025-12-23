@@ -37,23 +37,20 @@
   <script src="components-bundle.js" type="module"></script>
 </head>
 <body class="mdc-typography">
-<mwc-top-app-bar-fixed>
-  <span slot="title">FedCM IDP-2 Demo</span>
-  <mwc-icon-button
-          id="code"
-          icon="code"
-          slot="actionItems"
-          href="{{code_source}}"
-    ></mwc-icon-button>
-</mwc-top-app-bar-fixed>
+<header class="top-app-bar">
+  <div style="display: flex; align-items: center;">
+    <span class="title">FedCM IDP-2 Demo</span>
+  </div>
+  <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+</header>
 <main class="content center">
   <div id="uvpa_available" class="hidden">
     <h2>Verify your identity</h2>
     <div>
-      <mwc-button id="reauth" raised>Authenticate</mwc-button>
+      <md-filled-button id="reauth">Authenticate</md-filled-button>
     </div>
     <div>
-      <mwc-button id="cancel">Sign-in with password</mwc-button>
+      <md-text-button id="cancel">Sign-in with password</md-text-button>
     </div>
   </div>
   <form
@@ -64,45 +61,32 @@
   >
     <h2>Enter a password</h2>
     <input type="hidden" name="username" value="{{username}}" />
-    <div class="mdc-text-field mdc-text-field--filled center">
-      <span class="mdc-text-field__ripple"></span>
-      <label class="mdc-floating-label" id="password-label">password</label>
-      <input
-              type="password"
-              class="mdc-text-field__input"
-              aria-labelledby="password-label"
-              name="password"
-              value="1111"
-      />
-      <span class="mdc-line-ripple"></span>
-    </div>
+    <md-outlined-text-field
+      type="password"
+      label="password"
+      name="password"
+      value="1111"
+    ></md-outlined-text-field>
     <p class="instructions">Enter a random password. It will be ignored.</p>
-    <mwc-select
-      label="Account status"
-      name="status"
-      id="status-select"
-      outlined>
-        {{#each statuses}}
-        <mwc-list-item value="{{this.value}}">{{this.string}}</mwc-list-item>
-        {{/each}}
-    </mwc-select>
+    <md-outlined-select
+        label="Account status"
+        name="status"
+        id="status-select">
+          {{#each statuses}}
+          <md-select-option value="{{this.value}}">
+            <div slot="headline">{{this.string}}</div>
+          </md-select-option>
+          {{/each}}
+      </md-outlined-select>
     <div class="buttons center">
-      <input
-              type="submit"
-              class="mdc-button mdc-button--raised"
-              value="Sign-In"
-      />
+      <md-filled-button type="submit">Sign-In</md-filled-button>
     </div>
     <div class="buttons center">
-      <button type="submit" class="mdc-button">
-        <a href="/auth/signout">Sign-in with a different account</a>
-      </button>
+      <md-text-button href="/auth/signout">Sign-in with a different account</md-text-button>
     </div>
   </form>
 </main>
-<script src="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.js"></script>
 <script type="module">
-      new mdc.textField.MDCTextField(document.querySelector(".mdc-text-field"));
       import { _fetch, queryBack, authenticate } from "/client.js";
 
       // Set initial dropdown value
@@ -110,6 +94,8 @@
         const statusSelect = document.getElementById('status-select');
         statusSelect.value = '{{status}}';
       });
+
+
 
       const redirect = () => {
         // Invoke `IdentityProvider.close()` if it's available.

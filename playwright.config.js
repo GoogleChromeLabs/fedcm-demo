@@ -21,6 +21,13 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
+  webServer: {
+    command: 'npm start',
+    url: 'https://fedcm-demo-rp.localhost:8443/',
+    ignoreHTTPSErrors: true,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120 * 1000,
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -38,6 +45,7 @@ export default defineConfig({
     trace: 'on-first-retry',
     // As of Chrome 143, some of the FedCM data isn't yet exposed to CDP
     headless: false,
+    ignoreHTTPSErrors: true,
   },
 
   /* Configure projects for major browsers */

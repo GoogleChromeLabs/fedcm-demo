@@ -31,15 +31,13 @@
     <script src="components-bundle.js" type="module"></script>
   </head>
   <body class="mdc-typography">
-    <mwc-top-app-bar-fixed>
-      <span slot="title">FedCM IDP-2 Demo</span>
-      <mwc-icon-button
-          id="code"
-          icon="code"
-          slot="actionItems"
-          href="{{code_source}}"
-    ></mwc-icon-button>
-    </mwc-top-app-bar-fixed>
+  <body class="mdc-typography">
+    <header class="top-app-bar">
+      <div style="display: flex; align-items: center;">
+        <span class="title">FedCM IDP-2 Demo</span>
+      </div>
+      <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+    </header>
 
     <main class="content center">
       <h2>
@@ -47,25 +45,25 @@
       </h2>
       <form id="form" action="/auth/account" method="post" class="center">
         <div class="buttons center">
-          <mwc-list>
-            <mwc-list-item graphic="icon">
-              <slot>View and download all your Drive files</slot>
-              <mwc-icon slot="graphic">info</mwc-icon>
-            </mwc-list-item>
+          <md-list>
+            <md-list-item>
+              <div slot="headline">View and download all your Drive files</div>
+              <md-icon slot="start">info</md-icon>
+            </md-list-item>
 <!--         TODO: only show conditionally, if calendar is in scope     -->
-            <mwc-list-item graphic="icon">
-              <slot>See and download any calendar using your Calendar</slot>
-              <mwc-icon slot="graphic">info</mwc-icon>
-            </mwc-list-item>
-          </mwc-list>
+            <md-list-item>
+              <div slot="headline">See and download any calendar using your Calendar</div>
+               <md-icon slot="start">info</md-icon>
+            </md-list-item>
+          </md-list>
           <div class="buttons">
-            <mwc-button id="reject">Reject</mwc-button>
-            <mwc-button raised id="accept">Accept</mwc-button>
+            <md-text-button id="reject">Reject</md-text-button>
+            <md-filled-button id="accept">Accept</md-filled-button>
           </div>
         </div>
       </form>
     </main>
-    <mwc-snackbar id="snackbar"></mwc-snackbar>
+    <div id="snackbar"></div>
     <script type="module">
       import { _fetch, registerCredential, unregisterCredential, toast } from '/client.js';
       import { html, render } from 'https://unpkg.com/lit-html@1.0.0/lit-html.js?module';

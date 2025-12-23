@@ -18,14 +18,22 @@
  * NOTE: This is not an officially supported Google product
  */
 
+:root {
+  --md-sys-color-primary: #6200ee;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #6200ee;
+  --md-sys-color-on-primary-container: #ffffff;
+  --md-icon-button-icon-color: #ffffff;
+}
 * {
   box-sizing: border-box;
-  --mdc-theme-secondary: red;
 }
 
 body {
   margin: 0;
   padding: 0;
+  /* Spacer for fixed header */
+    padding-top: 64px;
 }
 
 .hidden {
@@ -55,14 +63,22 @@ body {
   }
 }
 
-mwc-button, .buttons {
-  margin: 0.83em 0;
+mwc-button,
+.buttons,
+md-filled-button,
+md-outlined-button,
+md-text-button {
+  margin: 4px;
+  /* Unified margin */
   a {
     text-decoration: none;
     color: inherit;
   }
 }
 
+:root {
+  --mdc-theme-primary: #6200ee;
+}
 .buttons {
   display: flex;
   width: 400px;
@@ -121,6 +137,108 @@ iframe {
 
   .signin-email {
     font-size: 0.8em;
-    font-color: gray;
-  }  
+    color: gray;
+    }
+    }
+    
+    /* Custom Top App Bar */
+    header.top-app-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      padding: 0 16px;
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    
+    header.top-app-bar .title {
+      font-size: 20px;
+      font-weight: 500;
+      margin-left: 16px;
+    }
+    
+    header.top-app-bar md-icon-button {
+      color: var(--md-sys-color-on-primary);
+    }
+    
+    /* Custom Snackbar */
+    #snackbar {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 4px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      font-size: 14px;
+    }
+    
+    #snackbar.show {
+      visibility: visible;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    
+    @-webkit-keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+    
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadein {
+      from {
+        bottom: 0;
+        opacity: 0;
+      }
+    
+      to {
+        bottom: 30px;
+        opacity: 1;
+      }
+    }
+    
+    @-webkit-keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+    
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+    }
+    
+    @keyframes fadeout {
+      from {
+        bottom: 30px;
+        opacity: 1;
+      }
+    
+      to {
+        bottom: 0;
+        opacity: 0;
+      }
+}
+
+md-icon {
+  font-family: 'Material Icons';
 }

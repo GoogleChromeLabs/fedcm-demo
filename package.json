@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "A package to manage all FedCM demos.",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "postinstall": "npm --prefix ./fedcm-demo-rp install && npm --prefix ./fedcm-demo-idp install && npm --prefix ./fedcm-demo-idp-2 install",
     "start": "concurrently --names \"RP,IDP,IDP-2,CADDY\" -c \"auto\" \"npm:start:rp\" \"npm:start:idp\" \"npm:start:another-idp\" \"npm:caddy:wait-and-run\"",

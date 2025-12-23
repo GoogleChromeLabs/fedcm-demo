@@ -18,10 +18,12 @@
  * NOTE: This is not an officially supported Google product
  */
 
-import '@material/mwc-button';
-import '@material/mwc-fab';
-import '@material/mwc-top-app-bar-fixed';
-import '@material/mwc-textfield';
-import '@material/mwc-snackbar';
-import '@material/mwc-icon-button';
-import '@material/mwc-select'
+import "@material/web/button/filled-button.js";
+import "@material/web/button/outlined-button.js";
+import "@material/web/button/text-button.js";
+import "@material/web/textfield/outlined-text-field.js";
+import "@material/web/icon/icon.js";
+import "@material/web/iconbutton/icon-button.js";
+import "@material/web/progress/linear-progress.js";
+import "@material/web/select/outlined-select.js";
+import "@material/web/select/select-option.js";
