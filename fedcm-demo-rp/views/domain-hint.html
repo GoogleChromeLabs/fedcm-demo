@@ -44,17 +44,14 @@
   <meta name="fedcm_demo_client_id" content="{{client_id}}" />
 </head>
 <body class="mdc-typography">
-<mwc-top-app-bar-fixed>
-  <mwc-icon-button id="menu" icon="menu" slot="navigationIcon"></mwc-icon-button>
-  <span slot="title">FedCM RP Demo</span>
-   <mwc-icon-button
-          id="code"
-          icon="code"
-          slot="actionItems"
-          href="{{code_source}}"
-    ></mwc-icon-button>
-</mwc-top-app-bar-fixed>
-<mwc-linear-progress id="progress"></mwc-linear-progress>
+ <header class="top-app-bar">
+   <div style="display: flex; align-items: center;">
+     <md-icon-button id="menu"><md-icon>menu</md-icon></md-icon-button>
+     <span class="title">FedCM RP Demo</span>
+   </div>
+   <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+ </header>
+<md-linear-progress id="progress"></md-linear-progress>
 <main class="content">
   <h2 class="center">Welcome to FedCM RP Demo: Domain hint feature!</h2>
   <p id="unsupported" class="warning hidden">
@@ -66,8 +63,8 @@
       This RP onlys allow users to sign in with @allowed-domain.example. Try
       signing in with demo@allowed-domain.example.
     </p>
-    <mwc-button id="sign-in" icon="login" raised
-    >Sign in with IdP</mwc-button
+    <md-filled-button id="sign-in"
+    ><md-icon slot="icon">login</md-icon>Sign in with IdP</md-filled-button
     >
     <p class="instructions">
       Try to sign in with a different account, e.g, demo@example. You should
@@ -107,11 +104,11 @@
               <p>You are signed in!</p>
               <img src="${user.picture}" class="picture" />
               <p>${user.name} (${user.username})</p>
-              <mwc-button @click="${signout(user.user_id)}" raised
-                >Sign-out</mwc-button
+              <md-filled-button @click="${signout(user.user_id)}"
+                >Sign-out</md-filled-button
               >
-              <mwc-button @click="${disconnectFromIdP(user.user_id)}"
-                >Disconnect</mwc-button
+              <md-text-button @click="${disconnectFromIdP(user.user_id)}"
+                >Disconnect</md-text-button
               >
             `,
             $("#profile")
@@ -162,6 +159,6 @@
         }
       });
     </script>
-<mwc-snackbar id="snackbar"></mwc-snackbar>
+<div id="snackbar"></div>
 </body>
 </html>

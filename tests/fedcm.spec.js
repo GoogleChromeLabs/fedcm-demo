@@ -63,7 +63,7 @@ test('FedCM passive dialog', async ({ page, browserName}, testInfo) => {
   // Sign in with IdP
   await test.step('2) Sign in with IdP', async () => {
     // Visit the IdP page
-    await page.goto('https://fedcm-demo-idp.localhost');
+    await page.goto('https://fedcm-demo-idp.localhost:8443');
     
     // Expect to see "Sign-in" text
     await expect(page.getByRole('heading', { name: 'Sign-in' })).toBeVisible();
@@ -79,12 +79,15 @@ test('FedCM passive dialog', async ({ page, browserName}, testInfo) => {
     
     // Expect to see "Welcome, demo@example.com!" text
     await expect(page.getByText('Welcome, demo@example.com!')).toBeVisible();
+
+    const cookies = await page.context().cookies();
+    console.log('Cookies after login:', JSON.stringify(cookies, null, 2));
   });
 
   // Land on RP
   await test.step('3) Land on RP and check that FedCM dialog was shown', async () => {
-    // Go to "https://fedcm-demo-rp.localhost/" page
-    await page.goto('https://fedcm-demo-rp.localhost/');
+    // Go to "https://fedcm-demo-rp.localhost:8443/" page
+    await page.goto('https://fedcm-demo-rp.localhost:8443/');
     
     // Expect to see "Welcome to the FedCM RP Demo: Passive Mode" text
     await expect(page.getByText('Welcome to the FedCM RP Demo: Passive Mode')).toBeVisible();
@@ -193,7 +196,7 @@ test('FedCM mismatch', async ({ page: page, browserName }, testInfo) => {
 
   await test.step('2) Sign in with IdP (Session Expired)', async () => {
     // Visit IdP
-    await page.goto('https://fedcm-demo-idp.localhost');
+    await page.goto('https://fedcm-demo-idp.localhost:8443');
     await expect(page.getByRole('heading', { name: 'Sign-in' })).toBeVisible();
     
     // Click Continue
@@ -201,8 +204,9 @@ test('FedCM mismatch', async ({ page: page, browserName }, testInfo) => {
     await expect(page.getByText('Enter a password')).toBeVisible();
 
     // Select "session expired" status
-    await page.getByLabel('Account status').click();
-    await page.getByRole('option', { name: 'Session expired' }).click();
+    await page.locator('md-outlined-select[label="Account status"]').click();
+    await page.waitForTimeout(1000); // Wait for menu to open
+    await page.locator('md-select-option').filter({ hasText: 'Session Expired' }).click();
     
     // Click "Sign-in button"
     await page.getByRole('button', { name: 'Sign-In', exact: true }).click();
@@ -211,15 +215,15 @@ test('FedCM mismatch', async ({ page: page, browserName }, testInfo) => {
     await expect(page.getByText('Welcome, demo@example.com!')).toBeVisible();
 
     // Validate session expired status
-    const dropdown = page.getByLabel('Account status');
-    const selectedValue = dropdown.locator('.mdc-select__selected-text');
-    await expect(selectedValue).toHaveText('Session Expired');
+    const dropdown = page.locator('md-outlined-select[label="Account status"]');
+    // valye for "Session Expired" is "session_expired" (from server.js)
+    await expect(dropdown).toHaveJSProperty('value', 'session_expired');
   });
 
   // Land on RP
   await test.step('3) Land on RP', async () => {
     // Go to RP page. This navigation triggers the FedCM dialog.
-    await page.goto('https://fedcm-demo-rp.localhost/');
+    await page.goto('https://fedcm-demo-rp.localhost:8443/');
     
     // Expect to see RP welcome text
     await expect(page.getByText('Welcome to the FedCM RP Demo: Passive Mode')).toBeVisible();
@@ -255,7 +259,7 @@ test('FedCM mismatch', async ({ page: page, browserName }, testInfo) => {
 
   await test.step('4) Re-login in on IdP', async () => {
     await expect(idpPage.getByText('FedCM IDP Demo')).toBeVisible();
-    await expect(idpPage.getByRole('button', { name: 'Sign out' })).toBeVisible();
+    await expect(idpPage.getByRole('link', { name: 'Sign out' })).toBeVisible();
     await idpPage.getByRole('link', { name: 'Sign out' }).click();
 
     await expect(idpPage.getByRole('heading', { name: 'Sign-in' })).toBeVisible();

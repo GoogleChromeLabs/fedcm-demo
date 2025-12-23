@@ -18,14 +18,22 @@
  * NOTE: This is not an officially supported Google product
  */
 
+:root {
+  --md-sys-color-primary: #008483;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #008483;
+  --md-sys-color-on-primary-container: #ffffff;
+  --md-icon-button-icon-color: #ffffff;
+}
 * {
   box-sizing: border-box;
-  --mdc-theme-primary: green;
 }
 
 body {
   margin: 0;
   padding: 0;
+  /* Spacer for fixed header */
+    padding-top: 64px;
 }
 
 .hidden {
@@ -83,13 +91,139 @@ iframe {
   min-height: 400px !important;
 }
 
+/* Update legacy mdc-theme-primary to match RP color */
+:root {
+  --mdc-theme-primary: #008483;
+}
+
+md-filled-button,
+md-outlined-button,
+md-text-button {
+  margin: 4px;
+}
+
+md-list-item {
+  --md-list-item-top-space: 0px;
+    --md-list-item-bottom-space: 0px;
+  /* Fix pinkish background in some states by forcing transparent or surface color */
+  --md-list-item-container-color: transparent;
+  --md-sys-color-surface-container-highest: transparent;
+  /* Attempt to override hover state pinkness if any */
+}
+
+md-list {
+  width: 100%;
+  max-width: 500px;
+  background-color: transparent;
+  /* Ensure no background color on the list itself */
+  --md-list-container-color: transparent;
+}
+/* Code block styling matching Chrome for Developers */
+pre {
+  background-color: #f1f3f4;
+  /* Light gray background */
+  border-radius: 8px;
+  padding: 16px;
+  width: 100%;
+  max-width: 500px;
+  /* Constrain width */
+  overflow-x: auto;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #202124;
+  margin: 16px 0;
+  border: none;
+  /* Remove legacy border if any */
+}
+
+/* Remove legacy code-block styles if not needed, or keep for other uses */
 .code-block {
-  background-color: #f4f4f4; 
-  border: 1px solid #ddd;  
-  border-radius: 4px;       
+  background-color: #f1f3f4;
+    border-radius: 8px;
   padding: 16px;            
-  font-family: monospace;   
+  font-family: 'Roboto Mono', monospace;
   text-align: left;         
   white-space: pre-wrap;    
-  word-break: break-all;   
+  word-break: break-all;
+  width: 100%;
+    max-width: 500px;
+}
+
+/* Custom Top App Bar Replacement */
+header.top-app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 64px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+header.top-app-bar .title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 16px;
+  flex-grow: 1;
+}
+
+header.top-app-bar md-icon-button {
+  color: var(--md-sys-color-on-primary);
+}
+
+/* Custom Snackbar Replacement */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 4px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%);
+  font-size: 14px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 0;
+    opacity: 0;
+  }
+}
+
+md-icon {
+  font-family: 'Material Icons';
 }

@@ -32,16 +32,13 @@
         <script src="components-bundle.js" type="module"></script>
     </head>
     <body class="mdc-typography">
-        <mwc-top-app-bar-fixed>
-            <mwc-icon-button id="menu" icon="menu" slot="navigationIcon"></mwc-icon-button>
-            <span slot="title">FedCM RP Demo</span>
-            <mwc-icon-button
-                    id="code"
-                    icon="code"
-                    slot="actionItems"
-                    href="{{code_source}}"
-            ></mwc-icon-button>
-        </mwc-top-app-bar-fixed>
+        <header class="top-app-bar">
+          <div style="display: flex; align-items: center;">
+            <md-icon-button id="menu"><md-icon>menu</md-icon></md-icon-button>
+            <span class="title">FedCM RP Demo</span>
+          </div>
+          <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+        </header>
         <main class="content">
             <div class="center">
             <!-- This iframe originates from idp2, and the idp2 calls FedCM usinf the SDK from idpq. Essentially, the user is signing in on the RP with the IdP1 -->

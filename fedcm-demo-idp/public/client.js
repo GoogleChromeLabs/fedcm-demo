@@ -34,8 +34,12 @@ if (codeButton) {
 }
 
 export const toast = (text) => {
-  $("#snackbar").labelText = text;
-  $("#snackbar").show();
+  const snackbar = document.getElementById("snackbar");
+  snackbar.className = "show";
+  snackbar.innerText = text;
+  setTimeout(function () {
+    snackbar.className = snackbar.className.replace("show", "");
+  }, 3000);
 };
 
 export const _fetch = async (path, payload = "") => {

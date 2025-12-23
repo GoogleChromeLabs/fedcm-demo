@@ -55,7 +55,7 @@ module.exports = {
       {
         test: /components\.js$/,
         loader: 'babel-loader',
-        query: { presets: ['env'] },
+        options: { presets: ['env'] },
       },
     ],
   },

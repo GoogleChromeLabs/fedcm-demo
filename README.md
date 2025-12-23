@@ -40,10 +40,10 @@ Each demo project needs to know the URLs of the other projects. You must create 
 #### In **`fedcm/`**, create a `.env` file:
 
 ```
-    IDP1_URL=https://fedcm-demo-idp.localhost
-    IDP2_URL=https://fedcm-demo-idp-2.localhost
-    RP_URL=https://fedcm-demo-rp.localhost
-    PROVIDER_URLS=["https://fedcm-demo-idp.localhost", "https://fedcm-demo-idp-2.localhost"]
+    IDP1_URL=https://fedcm-demo-idp.localhost:8443
+    IDP2_URL=https://fedcm-demo-idp-2.localhost:8443
+    RP_URL=https://fedcm-demo-rp.localhost:8443
+    PROVIDER_URLS=["https://fedcm-demo-idp.localhost:8443", "https://fedcm-demo-idp-2.localhost:8443"]
 ```
 
 ### 2. Install and Run the Environment
@@ -74,18 +74,18 @@ The `npm start` command triggers the entire environment setup:
 2.  **Waits for Servers**: It waits until all three demo servers are up and running before proceeding.
 
 3.  **Starts Caddy Proxy**: Once the servers are ready, it launches the Caddy reverse proxy. The proxy provides the secure HTTPS layer and maps the running demo servers to the `.local` domains you configured in your hosts file:
-    *   `https://fedcm-demo-rp.localhost` → `localhost:8080`
-    *   `https://fedcm-demo-idp.localhost` → `localhost:8081`
-    *   `https://fedcm-demo-idp-2.localhost` → `localhost:8082`
+    *   `https://fedcm-demo-rp.localhost:8443` → `localhost:8080`
+    *   `https://fedcm-demo-idp.localhost:8443` → `localhost:8081`
+    *   `https://fedcm-demo-idp-2.localhost:8443` → `localhost:8082`
 
     The first time it runs, it may ask for your system password to install the certificates. Caddy's logs are saved to a `caddy.log` file in this directory.
 
 ### Access the locally running Demos 
 
 With the environment running, you can now test the FedCM flow:
-   *   [https://fedcm-demo-rp.localhost](https://fedcm-demo-rp.localhost) - Relying Party (RP)
-   *   [https://fedcm-demo-idp.localhost](https://fedcm-demo-idp.localhost) - Identity Provider (IdP)
-   *   [https://fedcm-demo-idp-2.localhost](https://fedcm-demo-idp-2.localhost) - Another Identity Provider (IdP)
+   *   [https://fedcm-demo-rp.localhost:8443](https://fedcm-demo-rp.localhost:8443) - Relying Party (RP)
+   *   [https://fedcm-demo-idp.localhost:8443](https://fedcm-demo-idp.localhost:8443) - Identity Provider (IdP)
+   *   [https://fedcm-demo-idp-2.localhost:8443](https://fedcm-demo-idp-2.localhost:8443) - Another Identity Provider (IdP)
 
 ## Try out the deployed demos 
 
@@ -101,11 +101,11 @@ This project demonstrates various features of the **Federated Credential Managem
 
 | Feature | Demo Page | Documentation |
 | :--- | :--- | :--- |
-| **Passive Mode**  | [`https://fedcm-demo-rp.localhost/`](https://fedcm-demo-rp.localhost/) | [FedCM Auto-reauthentication](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#auto-reauthn) |
-| **Active Mode** | [`https://fedcm-demo-rp.localhost/active-mode`](https://developer.chrome.com/docs/identity/fedcm/overview#fedcm_ui_modes) | [FedCM Sign-in Flow](https://developer.chrome.com/docs/identity/fedcm/overview#fedcm_ui_modes) |
-| **Multiple IdPs** | [`https://fedcm-demo-rp.localhost/multi-idp`](https://fedcm-demo-rp.localhost/multi-idp) | [FedCM Developer Guide](https://developer.chrome.com/docs/identity/fedcm/implement/identity-provider) |
-| **Domain Hint**  | [`https://fedcm-demo-rp.localhost/domain-hint`](https://fedcm-demo-rp.localhost/domain-hint) | [Using `domain_hint`](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#domain-hint) |
-| **Domain Hint in Passive Mode** | [`https://fedcm-demo-rp.localhost/domain-hint-passive`](https://fedcm-demo-rp.localhost/domain-hint-passive) | [Using `domain_hint`](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#domain-hint) |
-| **Custom Fields**  | [`https://fedcm-demo-rp.localhost/alternative-fields`](https://fedcm-demo-rp.localhost/alternative-fields) | [IdP Sign-in Endpoint](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#fields) |
-| **FedCM in iframe**  | [`https://fedcm-demo-rp.localhost/iframe`](https://fedcm-demo-rp.localhost/iframe) | [Call FedCM from cross-origin iframe](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#call_fedcm_from_within_a_cross-origin_iframe) |
+| **Passive Mode**  | [`https://fedcm-demo-rp.localhost:8443/`](https://fedcm-demo-rp.localhost:8443/) | [FedCM Auto-reauthentication](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#auto-reauthn) |
+| **Active Mode** | [`https://fedcm-demo-rp.localhost:8443/active-mode`](https://developer.chrome.com/docs/identity/fedcm/overview#fedcm_ui_modes) | [FedCM Sign-in Flow](https://developer.chrome.com/docs/identity/fedcm/overview#fedcm_ui_modes) |
+| **Multiple IdPs** | [`https://fedcm-demo-rp.localhost:8443/multi-idp`](https://fedcm-demo-rp.localhost:8443/multi-idp) | [FedCM Developer Guide](https://developer.chrome.com/docs/identity/fedcm/implement/identity-provider) |
+| **Domain Hint**  | [`https://fedcm-demo-rp.localhost:8443/domain-hint`](https://fedcm-demo-rp.localhost:8443/domain-hint) | [Using `domain_hint`](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#domain-hint) |
+| **Domain Hint in Passive Mode** | [`https://fedcm-demo-rp.localhost:8443/domain-hint-passive`](https://fedcm-demo-rp.localhost:8443/domain-hint-passive) | [Using `domain_hint`](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#domain-hint) |
+| **Custom Fields**  | [`https://fedcm-demo-rp.localhost:8443/alternative-fields`](https://fedcm-demo-rp.localhost:8443/alternative-fields) | [IdP Sign-in Endpoint](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#fields) |
+| **FedCM in iframe**  | [`https://fedcm-demo-rp.localhost:8443/iframe`](https://fedcm-demo-rp.localhost:8443/iframe) | [Call FedCM from cross-origin iframe](https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#call_fedcm_from_within_a_cross-origin_iframe) |
 | **JSON response in ID assertion endpoint**  | [`https://fedcm-demo-rp.dev/json-response`](https://fedcm-demo-rp.dev/iframe) | [ID assertion endpoint](https://developer.chrome.com/docs/identity/fedcm/implement/identity-provider#id-assertion-endpoint) |

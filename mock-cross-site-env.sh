@@ -20,7 +20,7 @@ LOG_FILE="caddy.log"
 
 
 echo "Attempting to stop any running Caddy instances..."
-npx caddy stop > /dev/null 2>&1 || sudo killall caddy > /dev/null 2>&1 || true
+npx caddy stop > /dev/null 2>&1 || true
 
 printf "Starting Caddy local cross-site environment proxy. Logs will appear in \e]8;;file://$PWD/caddy.log\acaddy.log\e]8;;\a\n"
 

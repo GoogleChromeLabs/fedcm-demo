@@ -42,36 +42,33 @@
   <script src="components-bundle.js"></script>
 </head>
 <body class="mdc-typography">
-<mwc-top-app-bar-fixed>
-  <span slot="title">FedCM RP Demo</span>
-    <mwc-icon-button
-          id="code"
-          icon="code"
-          slot="actionItems"
-          href="{{code_source}}"
-  ></mwc-icon-button>
-</mwc-top-app-bar-fixed>
+ <header class="top-app-bar">
+   <div style="display: flex; align-items: center;">
+     <span class="title">FedCM RP Demo</span>
+   </div>
+   <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+ </header>
 <main class="content">
   <h2 class="center">Welcome {{name}} to FedCM RP Demo!</h2>
   <div id="profile">
     <img src="{{picture}}" class="picture" /><br />
     {{username}}
   </div>
-  <mwc-button id="sign-out" raised>Sign-out</mwc-button>
-  <mwc-button id="disconnbect">Disconnect</mwc-button>
+  <md-filled-button id="sign-out">Sign-out</md-filled-button>
+  <md-text-button id="disconnect">Disconnect</md-text-button>
 </main>
 <script type="module">
       import { $, toast, loading, _fetch } from "./client.js";
       import { disconnect } from "{{idp_origin}}/fedcm.js";
 
-      $("#sign-out").addEventListener((e) => {
+      $("#sign-out").addEventListener("click", (e) => {
         navigator.credentials.preventSilentAccess();
         location.href = "/signout";
       });
-      $("#disconnect").addEventListener(async (e) => {
+      $("#disconnect").addEventListener("click", async (e) => {
         await disconnect();
       });
     </script>
-<mwc-snackbar id="snackbar"></mwc-snackbar>
+<div id="snackbar"></div>
 </body>
 </html>

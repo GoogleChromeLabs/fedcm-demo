@@ -14,14 +14,10 @@
 #
 #  NOTE: This is not an officially supported Google product
 
-{
-    # Automatically generate and trust local HTTPS certificates.
-    local_certs
-}
-
 # Relying Party (RP) Demo
-fedcm-demo-rp.localhost {
+fedcm-demo-rp.localhost:8443 {
     reverse_proxy localhost:8080
+    tls internal
     log {
         output stdout
         format json
@@ -29,8 +25,9 @@ fedcm-demo-rp.localhost {
 }
 
 # Identity Provider 1 (IdP-1) Demo
-fedcm-demo-idp.localhost {
+fedcm-demo-idp.localhost:8443 {
     reverse_proxy localhost:8081
+    tls internal
     log {
         output stdout
         format json
@@ -38,8 +35,9 @@ fedcm-demo-idp.localhost {
 }
 
 # Identity Provider 2 (Another IdP) Demo
-fedcm-demo-idp-2.localhost {
+fedcm-demo-idp-2.localhost:8443 {
     reverse_proxy localhost:8082
+    tls internal
     log {
         output stdout
         format json

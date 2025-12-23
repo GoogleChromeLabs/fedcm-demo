@@ -12,8 +12,20 @@
         "http://localhost:8081",
         "https://fedcm-rp-demo.local",
         "https://fedcm-rp-demo.localhost",
-        "https://fedcm-demo-rp.localhost"
+        "https://fedcm-demo-rp.localhost",
+        "https://fedcm-demo-rp.localhost:8443"
       ],
+      "credentials": [],
+      "status": "signed_in"
+    },
+    {
+      "username": "hhjs@example.com",
+      "email": "hhjs@example.com",
+      "id": "SL-9Mv168OMjVdTooncr9FjZDggxgasj01VOsNPgWL0",
+      "given_name": "Bob",
+      "family_name": "Bro",
+      "picture": "https://www.gravatar.com/avatar/185365c554618aad5b4662d52d7df772",
+      "approved_clients": [],
       "credentials": [],
       "status": "signed_in"
     }
