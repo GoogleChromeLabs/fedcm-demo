@@ -1,0 +1,205 @@
+<!--
+ Copyright 2026 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+  NOTE: This is not an officially supported Google product
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FedCM RP Demo - Autofill</title>
+  <meta name="description" content="FedCM from Autofill Demo" />
+  <link id="favicon" rel="icon" href="https://cdn.glitch.me/94838ffe-241b-4a67-a9e0-290bfe34c351%2Fbank.png?v=1639111444422" type="image/x-icon" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/bundle.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css" />
+  <script src="components-bundle.js" type="module"></script>
+  <meta name="nonce" content="{{nonce}}" />
+  <meta name="fedcm_demo_client_id" content="{{client_id}}" />
+</head>
+<body class="mdc-typography">
+  <header class="top-app-bar">
+    <div style="display: flex; align-items: center;">
+      <md-icon-button id="menu" href="/menu"><md-icon>menu</md-icon></md-icon-button>
+      <span class="title">FedCM RP Demo</span>
+    </div>
+    <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+  </header>
+  <md-linear-progress id="progress"></md-linear-progress>
+  <main class="content">
+    <h2 class="center">FedCM from Autofill</h2>
+    
+    <div id="profile" class="center"></div>
+    
+    <div id="login" class="center">
+      <p class="instructions center">
+        Focus the input field below to see the FedCM account in the autofill dropdown.
+      </p>
+      
+      <div class="center">
+        <!-- Plain input field without custom styles -->
+        <input 
+          type="text"
+          id="username" 
+          name="username" 
+          autocomplete="username webidentity"
+          placeholder="Click here to sign in"
+        >
+      </div>
+      
+      <div class="accordion">
+        <details class="accordion-item" open>
+          <summary class="accordion-header">What's this demo?</summary>
+          <div class="accordion-content">
+            <p class="instructions">
+              This page demonstrates the conditional mediation flow where FedCM credentials appear in the browser's autofill menu.
+            </p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-header">Prerequisites</summary>
+          <div class="accordion-content">
+            <p class="instructions">
+              Use Chrome 144 or newer, enable the flag at <code>chrome://flags/#fedcm-autofill</code>.
+            </p>
+          </div>
+        </details>
+
+        <details class="accordion-item">
+          <summary class="accordion-header">How to implement</summary>
+          <div class="accordion-content">
+            <p class="instructions">
+              Annotate your input field with <code>autocomplete="username webidentity"</code> (or <code>autocomplete="webidentity"</code>) and the right name attribute values to see the FedCM account in the autofill dropdown, and call the API with conditional mediation:
+            </p>
+            <pre>
+              <code>
+const {token} = await navigator.credentials.get({
+  mediation: "conditional",
+  identity: {
+    providers: [{
+      configURL: "{{idp_origin}}/fedcm.json",
+      clientId: "{{client_id}}",
+      params: {
+        nonce,
+      },
+    }]
+  },
+});
+              </code>
+            </pre>
+            <p class="instructions">
+              Read the full explainer at the <a href="https://github.com/w3c-fedid/FedCM/issues/694" target="_blank">w3c-fedid/FedCM issue #694</a> repository.
+            </p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="snackbar"></div>
+
+  <script type="module">
+    import { $, toast, loading, _fetch } from "./client.js";
+    import { html, render } from 'https://unpkg.com/lit-html@2.2.0/lit-html.js?module';
+    import { IdentityProvider } from "{{idp_origin}}/fedcm.js";
+
+     const idp = new IdentityProvider({
+        configURL: "{{idp_origin}}/fedcm.json",
+        clientId: "{{client_id}}",
+      });
+    
+    const signIn = async (token) => {
+      try {
+        loading.start();
+        const user = await _fetch('/verify', { token });
+        render(html`
+        <p>You are signed in!</p>
+        <img src="${user.picture}" class="picture">
+        <p>${user.name} (${user.username})</p>
+        <md-filled-button @click="${signout(user.user_id)}">Sign-out</md-filled-button>
+        <md-text-button @click="${disconnectFromIdP(user.user_id)}">Disconnect</md-text-button>
+        `, $('#profile'));
+        $('#login').classList.add('hidden');
+      } catch (e) {
+        console.error(e);
+        toast(e.message);
+      } finally {
+        loading.stop();
+      }
+    };
+
+    const signout = (account_id) => async () => {
+      try {
+        loading.start();
+        toast('You are signed out. Redirecting in 3.0 sec.');
+        setTimeout(() => {
+          idp.signOut();
+          location.href = `/signout?back=${encodeURIComponent(location.pathname)}`;
+        }, 3000);
+      } catch (e) {
+        loading.stop();
+        console.error(e);
+        toast(e.message);
+      }
+    };
+    
+    const disconnectFromIdP = (account_id) => async () => {
+      try {
+        toast('Disconnect not implemented on this specific demo page.');
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    const triggerAutofill = async () => {
+      if (!('IdentityCredential' in window)) {
+        toast("FedCM is not supported in this browser.", 5000);
+        return;
+      }
+      console.log("Triggering autofill...")
+
+      try {
+        const nonce = document.querySelector('meta[name="nonce"]')?.content;
+        const credential = await navigator.credentials.get({
+          mediation: "conditional",
+          identity: {
+            providers: [{
+              configURL: "{{idp_origin}}/fedcm.json",
+              clientId: "{{client_id}}",
+              params: {
+                nonce,
+              },
+            }]
+          },
+        });
+
+        if (credential) {
+          toast("Credential received from autofill!");
+          await signIn(credential.token);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    triggerAutofill();
+  </script>
+</body>
+</html>

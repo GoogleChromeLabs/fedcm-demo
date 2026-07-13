@@ -113,7 +113,8 @@ app.post("/verify", csrfCheck, (req, res) => {
 
 app.get("/signout", (req, res) => {
   req.session.destroy();
-  res.redirect(307, "/");
+  const back = req.query.back || req.query.redirect || "/";
+  res.redirect(307, back);
 });
 
 app.get("/home", sessionCheck, (req, res) => {
@@ -243,6 +244,19 @@ app.get("/json-response", (req, res) => {
   const client_id = CLIENT_ID;
   const idp_origin = IDP_ORIGIN;
   res.render("json-response.html", 
+    { nonce,
+      client_id,
+      idp_origin,
+      code_source: CODE_SOURCE,
+    });
+});
+
+app.get("/fedcm-from-autofill", (req, res) => {
+  const nonce = Math.floor(Math.random() * 10e10);
+  req.session.nonce = nonce;
+  const client_id = CLIENT_ID;
+  const idp_origin = IDP_ORIGIN;
+  res.render("fedcm-from-autofill.html", 
     { nonce,
       client_id,
       idp_origin,

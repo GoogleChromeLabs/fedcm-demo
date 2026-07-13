@@ -107,7 +107,7 @@
           toast('You are signed out. Redirecting in 3.0 sec.');
           setTimeout(() => {
             idp.signOut();
-            location.href = '/signout';
+            location.href = `/signout?back=${encodeURIComponent(location.pathname)}`;
           }, 3000);
         } catch (e) {
           loading.stop();
