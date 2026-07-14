@@ -678,4 +678,20 @@ router.post("/disconnect", csrfCheck, apiSessionCheck, (req, res) => {
   }
 });
 
+let latestMetricsPayload = null;
+
+router.get("/metrics/latest", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  return res.json(latestMetricsPayload || { status: "ok" });
+});
+
+router.post(["/metrics", "/metrics.php"], (req, res) => {
+  console.log("--> Received FedCM metrics report (/auth/metrics):");
+  console.log("Origin:", req.headers.origin);
+  console.log("Sec-Fetch-Dest:", req.headers["sec-fetch-dest"]);
+  console.log("Body:", JSON.stringify(req.body, null, 2));
+  latestMetricsPayload = req.body || { status: "ok" };
+  return res.status(200).json({ status: "ok" });
+});
+
 module.exports = router;
