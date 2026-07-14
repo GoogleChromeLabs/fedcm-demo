@@ -51,6 +51,7 @@ app.set("views", [
 app.set("view engine", "html");
 // app.set("views", path.join(__dirname, "views"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   express.static(path.join(__dirname, "public"), {
     setHeaders: (res) => {
@@ -301,6 +302,45 @@ app.get("/fedcm-json-response.json", (req, res) => {
       ],
     },
   });
+});
+
+// FedCM config file containing metrics_endpoint
+app.get("/fedcm-response-metric.json", (req, res) => {
+  console.log("loading /fedcm-response-metric.json...");
+  return res.json({
+    accounts_endpoint: "/auth/accounts",
+    client_metadata_endpoint: "/auth/metadata",
+    id_assertion_endpoint: "/auth/idtokens",
+    disconnect_endpoint: "/auth/disconnect",
+    metrics_endpoint: "/auth/metrics",
+    login_url: "/",
+    modes: {
+      active: {
+        supports_use_other_account: true,
+      },
+    },
+    branding: {
+      background_color: "#6200ee",
+      color: "#ffffff",
+      icons: [
+        {
+          url: "https://cdn.glitch.global/4673feef-8c3a-4ea6-91b5-aad78b1d7251/idp-logo-512.png?v=1713514252268",
+          size: 512,
+        },
+      ],
+    },
+  });
+});
+
+app.post(["/metrics", "/metrics.php"], (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Sec-Fetch-Dest");
+  console.log("--> Received FedCM metrics report (top-level):");
+  console.log("Origin:", req.headers.origin);
+  console.log("Sec-Fetch-Dest:", req.headers["sec-fetch-dest"]);
+  console.log("Body:", JSON.stringify(req.body, null, 2));
+  return res.status(200).json({ status: "ok" });
 });
 
 app.get("/fedcm.js", (req, res) => {

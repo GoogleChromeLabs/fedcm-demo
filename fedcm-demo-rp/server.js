@@ -142,6 +142,19 @@ app.get("/", (req, res) => {
     });
 });
 
+app.get("/metrics", (req, res) => {
+  const nonce = Math.floor(Math.random() * 10e10);
+  req.session.nonce = nonce;
+  const client_id = CLIENT_ID;
+  const idp_origin = IDP_ORIGIN;
+  res.render("metrics.html", {
+    nonce,
+    client_id,
+    idp_origin,
+    code_source: CODE_SOURCE,
+  });
+});
+
 app.get("/multi-idp", (req, res) => {
   const nonce = Math.floor(Math.random() * 10e10);
   req.session.nonce = nonce;
