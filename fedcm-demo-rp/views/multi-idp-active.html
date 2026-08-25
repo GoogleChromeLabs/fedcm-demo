@@ -1,0 +1,170 @@
+<!--
+ Copyright 2026 Google LLC
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+
+  NOTE: This is not an officially supported Google product
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FedCM RP Demo</title>
+  <meta name="description" content="FedCM RP Demo" />
+  <link
+          id="favicon"
+          rel="icon"
+          href="https://cdn.glitch.me/94838ffe-241b-4a67-a9e0-290bfe34c351%2Fbank.png?v=1639111444422"
+          type="image/x-icon"
+  />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="/bundle.css" />
+  <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  />
+  <link
+          rel="stylesheet"
+          href="https://unpkg.com/material-components-web@7.0.0/dist/material-components-web.min.css"
+  />
+  <script src="components-bundle.js" type="module"></script>
+  <meta name="nonce" content="{{nonce}}" />
+  <meta name="fedcm_demo_client_id" content="{{client_id}}" />
+</head>
+<body class="mdc-typography">
+ <header class="top-app-bar">
+   <div style="display: flex; align-items: center;">
+     <md-icon-button id="menu"><md-icon>menu</md-icon></md-icon-button>
+     <span class="title">FedCM RP Demo</span>
+   </div>
+   <md-icon-button id="code" href="{{code_source}}"><md-icon>code</md-icon></md-icon-button>
+ </header>
+<md-linear-progress id="progress"></md-linear-progress>
+<main class="content">
+  <h2 class="center">Welcome to the FedCM RP Demo: Active Mode</h2>
+  <p id="unsupported" class="warning hidden">
+    Your browser does not support FedCM.
+  </p>
+  <div id="profile" class="center"></div>
+  <div id="login" class="center">
+    <p class="instructions">
+      If you don't see a sign-in dialog on top right corner, you need to
+      sign-in on the IdP first by pressing the button below.
+    </p>
+    <md-filled-button id="sign-in"><md-icon slot="icon">login</md-icon>Sign in with IdP</md-filled-button>
+    <p class="instructions">
+      Use account ID of "<code>multiple-accounts</code>" to try mulitple
+      accounts dialog.
+    </p>
+  </div>
+</main>
+<script type="module">
+      import { $, toast, loading, _fetch } from "./client.js";
+      import {
+        html,
+        render,
+      } from "https://unpkg.com/lit-html@2.2.0/lit-html.js?module";
+
+      import { IdentityProvider } from "{{idp_origin}}/fedcm.js";
+      import { IdentityProvider as IdentityProvider2 } from "{{idp2_origin}}/fedcm.js";
+
+      const idp = new IdentityProvider2();
+
+      const signIn = async () => {
+        try {
+          const token = await idp.signIn({ mode: "active" });
+
+          // Construct the payload for the verification request.
+          const payload = { token, multi_idp: true };
+          
+          const user = await _fetch("/verify", payload);
+          render(
+            html`
+          <p>You are signed in!</p>
+          <img src="${user.picture}" class="picture">
+          <p>${user.name} (${user.username})</p>
+          <md-filled-button @click="${signout(
+            user.user_id
+          )}">Sign-out</md-filled-button>
+          <md-text-button @click="${disconnectFromIdP(
+            user.user_id
+          )}">Disconnect</md-text-button>
+          <p class="instructions">
+          Press <strong>sign-out</strong> to sign out on this RP. This will call <code>navigator.credentials.preventSilentAccess()</code>, and prevent auto-reauthentication with this account when the user visits the RP again. Next time the user visits the RP, they'll be treated as a returning user with this account. Learn more in the
+          <a href="https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#auto-reauthn" target="_blank">developer guide</a>.
+          </p>
+          <p class="instructions">
+          Press <strong>disconnect</strong> to disconnect from the IdP. The Disconnect API allows the user to disconnect the IdP account
+          from the RP on the browser as well as on the IdP server. Next time the user visits the RP they'll be treated as a new user, and
+          the <a href="https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#fields" target="_blank">disclosure
+          UI</a> will be shown. Learn more about the Disconnect API
+          <a href="https://developer.chrome.com/docs/identity/fedcm/implement/relying-party#disconnect_the_idp_from_the_rp"
+          target="_blank">here</a>.
+          </p>
+          <p class="instructions">
+          Both of the methods <code>signOut()</code> and <code>disconnect()</code> are defined in the IdP's <a href="https://fedcm-demo-idp.glitch.me/fedcm.js" target="_blank">config file</a>. The methods can also be implemented by the RP.
+          </p>
+          `,
+            $("#profile")
+          );
+          $("#login").classList.add("hidden");
+        } catch (e) {
+          console.error(e);
+          toast(e.message);
+        }
+      };
+      const signout = (account_id) => async () => {
+        try {
+          loading.start();
+          toast("You are signed out. Redirecting in 3.0 sec.");
+          setTimeout(() => {
+            idp.signOut();
+            location.href = "/signout";
+          }, 3000);
+        } catch (e) {
+          loading.stop();
+          console.error(e);
+          toast(e.message);
+        }
+      };
+
+      const disconnectFromIdP = (account_id) => async () => {
+        try {
+          await idp.disconnect(account_id);
+          toast("You are disconnected and signed out. Redirecting in 3.0 sec.");
+          setTimeout(() => {
+            location.href = "/signout";
+          }, 3000);
+        } catch (e) {
+          console.log(e);
+          toast("Account disconnection failed.");
+        }
+      };
+
+      $("#sign-in").addEventListener("click", async (e) => {
+        try {
+          if ("IdentityCredential" in window) {
+            await signIn();
+          } else {
+            throw new Error("FedCM not supported.");
+          }
+        } catch (error) {
+          idp.redirect();
+        }
+      });
+    </script>
+    <div id="snackbar"></div>
+  </body>
+</html>

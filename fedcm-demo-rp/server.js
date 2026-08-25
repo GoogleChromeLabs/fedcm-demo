@@ -171,6 +171,21 @@ app.get("/multi-idp", (req, res) => {
   });
 });
 
+app.get("/multi-idp-active", (req, res) => {
+  const nonce = Math.floor(Math.random() * 10e10);
+  req.session.nonce = nonce;
+  const client_id = CLIENT_ID;
+  const idp_origin = IDP_ORIGIN;
+  const idp2_origin = IDP2_ORIGIN;
+  res.render("multi-idp-active.html", {
+    nonce,
+    client_id,
+    idp_origin,
+    idp2_origin,
+    code_source: CODE_SOURCE,
+  });
+});
+
 app.get("/alternative-fields", (req, res) => {
   const nonce = Math.floor(Math.random() * 10e10);
   req.session.nonce = nonce;
