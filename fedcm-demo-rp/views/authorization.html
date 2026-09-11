@@ -93,7 +93,7 @@
         try {
           const token = await idp.signIn({
             mode: "active",
-            params: { scope: "drive" },
+            params: { scope: "drive", nonce: "{{nonce}}" },
             mediation: "optional",
           });
           const user = await _fetch("/verify", { token });
