@@ -360,11 +360,12 @@ const isValidOrigin = (originStr) => {
 };
 
 router.post("/token", csrfCheck, apiSessionCheck, (req, res) => {
+  console.log("auth/token")
 
   const { client_id, nonce } = req.body;
   let user = res.locals.user;
 
-  if (user.status === "") {
+  if (user.status === "signed_in") {
     const token = jwt.sign(
       {
         iss: process.env.ORIGIN,
@@ -479,8 +480,9 @@ router.post("/idtokens", csrfCheck, apiSessionCheck, (req, res) => {
     }
 
     if (scope) {
+      const continueOnURL = `/authorization?client_id=${client_id}&scope=${scope}&nonce=${paramsObject.nonce}`;
       return res.json({
-        continue_on: `/authorization?client_id=${client_id}&scope=${scope}&nonce=${params.nonce}`,
+        continue_on: continueOnURL,
       });
     }
 

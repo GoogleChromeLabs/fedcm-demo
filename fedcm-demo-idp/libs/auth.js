@@ -376,11 +376,12 @@ const isValidOrigin = (originStr) => {
 };
 
 router.post("/token", csrfCheck, apiSessionCheck, (req, res) => {
+  console.log("auth/token")
 
   const { client_id, nonce } = req.body;
   let user = res.locals.user;
-
-  if (user.status === "") {
+  
+  if (user.status === "signed_in") {
     const token = jwt.sign(
       {
         iss: process.env.ORIGIN,
@@ -398,7 +399,6 @@ router.post("/token", csrfCheck, apiSessionCheck, (req, res) => {
       "xxxxx"
     );
 
-    // console.log(`/token returns "token": "${token}"`);
     return res.json({ token });
   } else {
     let error_code = 401;
@@ -412,7 +412,8 @@ router.post("/token", csrfCheck, apiSessionCheck, (req, res) => {
       default:
         error_code = 401;
     }
-    return res.status(error_code);
+    // return res.status(error_code);
+    return res.status(error_code).json({ error: user.status });
   }
 });
 
@@ -495,9 +496,8 @@ router.post("/idtokens", csrfCheck, apiSessionCheck, (req, res) => {
     }
 
     if (scope) {
-      // console.log("/idtokens returns `continue_on`");
       return res.json({
-        continue_on: `/authorization?client_id=${client_id}&scope=${scope}&nonce=${params.nonce}`,
+        continue_on: `/authorization?client_id=${client_id}&scope=${scope}&nonce=${nonce}`,
       });
     }
 
