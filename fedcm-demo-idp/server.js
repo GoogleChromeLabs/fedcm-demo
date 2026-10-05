@@ -30,6 +30,11 @@ const app = express();
 const isDevelopmentEnvironment = process.env.DEV_ENV;
 const CODE_SOURCE = process.env.CODE_SOURCE;
 
+const IDP_BRAND_ICON = {
+  url: `${process.env.IDP1_URL}/idp-logo.png`,
+  size: 351,
+};
+
 app.set("view engine", "html");
 
 hbs.registerHelper("isEqual", (value1, value2, options) => {
@@ -272,12 +277,7 @@ app.get("/fedcm.json", (req, res) => {
     branding: {
       background_color: "#6200ee",
       color: "#ffffff",
-      icons: [
-        {
-          url: "https://cdn.glitch.global/4673feef-8c3a-4ea6-91b5-aad78b1d7251/idp-logo-512.png?v=1713514252268",
-          size: 512,
-        },
-      ],
+      icons: [IDP_BRAND_ICON],
     },
   });
 });
@@ -294,12 +294,7 @@ app.get("/fedcm-json-response.json", (req, res) => {
     branding: {
       background_color: "#6200ee",
       color: "#ffffff",
-      icons: [
-        {
-          url: "https://cdn.glitch.global/4673feef-8c3a-4ea6-91b5-aad78b1d7251/idp-logo-512.png?v=1713514252268",
-          size: 512,
-        },
-      ],
+      icons: [IDP_BRAND_ICON],
     },
   });
 });
@@ -322,12 +317,7 @@ app.get("/fedcm-response-metric.json", (req, res) => {
     branding: {
       background_color: "#6200ee",
       color: "#ffffff",
-      icons: [
-        {
-          url: "https://cdn.glitch.global/4673feef-8c3a-4ea6-91b5-aad78b1d7251/idp-logo-512.png?v=1713514252268",
-          size: 512,
-        },
-      ],
+      icons: [IDP_BRAND_ICON],
     },
   });
 });

@@ -349,8 +349,8 @@ router.get("/metadata", (req, res) => {
     icons: [
       {
         // Logo icons can be configured depending on the RP (on the client_id)
-        url: "https://cdn.glitch.global/1156bf10-8b7b-4c1a-91ec-6d46c61eae85/pets_40dp_CEA8BC_FILL0_wght400_GRAD0_opsz40.png?v=1721774712421",
-        size: 40,
+        url: `${RP_ORIGIN}/rp-logo.png`,
+        size: 256,
       },
     ],
   });
