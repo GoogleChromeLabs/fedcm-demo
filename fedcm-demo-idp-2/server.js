@@ -311,8 +311,8 @@ app.get("/fedcm.json", (req, res) => {
       color: "#ffffff",
       icons: [
         {
-          url: "/idp-logo.png",
-          size: 512,
+          url: `${process.env.IDP2_URL}/idp-2-logo.png`,
+          size: 80,
         },
       ],
     },
