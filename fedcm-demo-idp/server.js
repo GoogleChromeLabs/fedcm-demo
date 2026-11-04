@@ -281,7 +281,7 @@ app.get("/fedcm.json", (req, res) => {
     },
     privacy_policy_url: `${process.env.IDP1_URL}/privacy_policy.html`,
     terms_of_service_url: `${process.env.IDP1_URL}/terms_of_service.html`,
-    account_manager_url: `${process.env.IDP1_URL}/home`,
+    account_management_url: `${process.env.IDP1_URL}/home`,
   });
 });
 
