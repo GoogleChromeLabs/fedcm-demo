@@ -254,6 +254,9 @@ app.get("/.well-known/web-identity", (req, res) => {
     // provider_urls: [`${process.env.IDP1_URL}/fedcm.json`, `${process.env.IDP1_URL}/fedcm-json-response.json`],
     accounts_endpoint: "/auth/accounts",
     login_url: "/",
+    privacy_policy_url: `${process.env.IDP1_URL}/privacy_policy.html`,
+    terms_of_service_url: `${process.env.IDP1_URL}/terms_of_service.html`,
+    account_management_url: `${process.env.IDP1_URL}/home`,
   });
 });
 
@@ -279,9 +282,6 @@ app.get("/fedcm.json", (req, res) => {
       color: "#ffffff",
       icons: [IDP_BRAND_ICON],
     },
-    privacy_policy_url: `${process.env.IDP1_URL}/privacy_policy.html`,
-    terms_of_service_url: `${process.env.IDP1_URL}/terms_of_service.html`,
-    account_management_url: `${process.env.IDP1_URL}/home`,
   });
 });
 
